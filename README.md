@@ -9,7 +9,7 @@ This project is a Python application that requires certain dependencies and scri
 
 1. Clone this repository to your local machine:
     ```bash
-    git clone `https://github.com/MonkyMars/Self-learning-Algorithm`
+    git clone `https://github.com/MonkyMars/PopQuick-Category-Algorithm`
     ```
 
 2. Create a virtual environment (optional but recommended):
