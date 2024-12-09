@@ -8,7 +8,7 @@ def load_categories(file_path="data/categories.json"):
     with open(file_path, "r") as f:
         return json.load(f)
 
-def recommend_content_based(history, top_n=10, temperature=.7):
+def recommend_content_based(history, top_n=10, temperature=0.7):
     """
     Args:
         history: List of category names
@@ -37,15 +37,22 @@ def recommend_content_based(history, top_n=10, temperature=.7):
     avg_similarity = similarity_matrix[indices].mean(axis=0)
     
     # Scale random noise by temperature
-    noise_magnitude = temperature * 0.5  # Max noise = half of similarity
+    noise_magnitude = temperature * 0.5
     random_noise = np.random.uniform(-noise_magnitude, noise_magnitude, len(avg_similarity))
     avg_similarity = avg_similarity + random_noise
     
-    # Get larger pool for more variety
-    pool_size = min(int(top_n * (1 + temperature * 3)), len(category_names))
-    recommended_indices = avg_similarity.argsort()[-pool_size:][::-1]
+    # Get larger pool size but ensure it's at least top_n
+    pool_size = max(int(top_n * (1 + temperature * 3)), top_n)
+    pool_size = min(pool_size, len(category_names))
     
+    recommended_indices = avg_similarity.argsort()[-pool_size:][::-1]
     recommendations_pool = [category_names[i] for i in recommended_indices if category_names[i] not in valid_history]
-    final_recommendations = random.sample(recommendations_pool[:pool_size], min(top_n, len(recommendations_pool)))
+    
+    # Ensure we return exactly top_n recommendations
+    final_recommendations = recommendations_pool[:top_n]
+    if len(final_recommendations) < top_n:
+        remaining = top_n - len(final_recommendations)
+        additional = [cat for cat in category_names if cat not in final_recommendations and cat not in valid_history][:remaining]
+        final_recommendations.extend(additional)
     
     return final_recommendations
