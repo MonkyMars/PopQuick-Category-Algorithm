@@ -1,7 +1,7 @@
 from models.content_based import recommend_content_based
 import json
 from flask import Flask, request, jsonify
-
+from utils.file_io import load_json
 app = Flask(__name__)
 
 # Load the feedback data from the JSON file
@@ -26,8 +26,12 @@ def get_recommendations():
         user_history = convert_to_user_history(feedback)
         
         # Get recommendations
+        feedback = load_json("data/feedback.json")
+        liked_categories = [item["category"] for item in feedback if item["liked"]]
+        disliked_categories = [item["category"] for item in feedback if not item["liked"]]
         recommendations = recommend_content_based(
-            user_history, 
+            liked_categories=liked_categories,
+            disliked_categories=disliked_categories,
             top_n=top_n,
             temperature=temperature
         )
