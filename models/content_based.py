@@ -41,7 +41,6 @@ def recommend_content_based(history, top_n=10, temperature=0.7):
     random_noise = np.random.uniform(-noise_magnitude, noise_magnitude, len(avg_similarity))
     avg_similarity = avg_similarity + random_noise
     
-    # Get larger pool size but ensure it's at least top_n
     pool_size = max(int(top_n * (1 + temperature * 3)), top_n)
     pool_size = min(pool_size, len(category_names))
     
