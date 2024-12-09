@@ -8,50 +8,64 @@ def load_categories(file_path="data/categories.json"):
     with open(file_path, "r") as f:
         return json.load(f)
 
-def recommend_content_based(history, top_n=10, temperature=0.7):
+def recommend_content_based(liked_categories, disliked_categories=None, top_n=10, temperature=0.7):
     """
+    Enhanced algorithm to provide recommendations closely tied to user's preferences.
+
     Args:
-        history: List of category names
-        top_n: Number of recommendations to return
-        temperature: Float between 0.0-1.0 controlling randomness
-                    0.0 = deterministic
-                    1.0 = most random
+        liked_categories: List of category names the user likes.
+        disliked_categories: List of category names the user dislikes.
+        top_n: Number of recommendations to return.
+        temperature: Float between 0.0-1.0 controlling randomness.
     """
     categories = load_categories()
     descriptions = list(categories.values())
     category_names = list(categories.keys())
-    
-    print(f"Number of categories loaded: {len(category_names)}")
-    
-    valid_history = [cat for cat in history if cat in category_names]
-    
-    if len(valid_history) != len(history):
-        missing_categories = set(history) - set(valid_history)
-        print(f"Warning: The following categories were not found: {missing_categories}")
-    
+
+    # Vectorize the category descriptions
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(descriptions)
-    similarity_matrix = cosine_similarity(tfidf_matrix)
-    
-    indices = [category_names.index(cat) for cat in valid_history]
-    avg_similarity = similarity_matrix[indices].mean(axis=0)
-    
-    # Scale random noise by temperature
-    noise_magnitude = temperature * 0.5
-    random_noise = np.random.uniform(-noise_magnitude, noise_magnitude, len(avg_similarity))
-    avg_similarity = avg_similarity + random_noise
-    
-    pool_size = max(int(top_n * (1 + temperature * 3)), top_n)
-    pool_size = min(pool_size, len(category_names))
-    
-    recommended_indices = avg_similarity.argsort()[-pool_size:][::-1]
-    recommendations_pool = [category_names[i] for i in recommended_indices if category_names[i] not in valid_history]
-    
-    # Ensure we return exactly top_n recommendations
-    final_recommendations = recommendations_pool[:top_n]
-    if len(final_recommendations) < top_n:
-        remaining = top_n - len(final_recommendations)
-        additional = [cat for cat in category_names if cat not in final_recommendations and cat not in valid_history][:remaining]
-        final_recommendations.extend(additional)
-    
-    return final_recommendations
+
+    # Ensure disliked_categories is a list
+    if disliked_categories is None:
+        disliked_categories = []
+
+    # Indices of liked and disliked categories
+    liked_indices = [category_names.index(cat) for cat in liked_categories if cat in category_names]
+    disliked_indices = [category_names.index(cat) for cat in disliked_categories if cat in category_names]
+
+    if not liked_indices:
+        raise ValueError("No valid liked categories found.")
+
+    # Compute the positive and negative user profiles
+    positive_profile = tfidf_matrix[liked_indices].mean(axis=0)
+
+    # If there are dislikes, subtract them from the positive profile
+    if disliked_indices:
+        negative_profile = tfidf_matrix[disliked_indices].mean(axis=0)
+        user_profile = positive_profile - negative_profile
+    else:
+        user_profile = positive_profile
+
+    # Ensure the user_profile is a 1D array
+    user_profile = user_profile.A.flatten()
+
+    # Compute similarities between user profile and all categories
+    similarity_scores = tfidf_matrix.dot(user_profile)
+
+    # Exclude liked and disliked categories from recommendations
+    excluded_indices = set(liked_indices + disliked_indices)
+    similarity_scores[list(excluded_indices)] = -np.inf
+
+    # Apply temperature scaling
+    if temperature > 0:
+        probabilities = np.exp(similarity_scores / temperature)
+        probabilities /= probabilities.sum()
+        recommended_indices = np.random.choice(len(category_names), size=top_n, replace=False, p=probabilities)
+    else:
+        # For temperature=0, return the top_n highest scores
+        recommended_indices = np.argsort(similarity_scores)[::-1][:top_n]
+
+    recommendations = [category_names[i] for i in recommended_indices]
+
+    return recommendations
