@@ -1,4 +1,15 @@
 [
-    {"category": "programming", "liked": true},
-    {"category": "rocket league", "liked": true}
+  { "category": "programming", "liked": true },
+  { "category": "rocket league", "liked": false },
+  { "category": "programming languages", "liked": true },
+  { "category": "game development", "liked": false },
+  { "category": "web development", "liked": true },
+  { "category": "mobile development", "liked": false },
+  { "category": "cloud computing", "liked": true },
+  { "category": "machine learning", "liked": true },
+  { "category": "natural language processing", "liked": false },
+  { "category": "digital marketing", "liked": false },
+  { "category": "e-commerce", "liked": true },
+  { "category": "3D modeling", "liked": false },
+  { "category": "UI/UX design", "liked": true }
 ]

@@ -1,4 +1,4 @@
-from models.content_based import recommend_content_based
+from models.content_based import recommend_content_based, train_model, recommend_ml
 import json
 from flask import Flask, request, jsonify
 from utils.file_io import load_json
@@ -17,30 +17,23 @@ def convert_to_user_history(feedback):
 @app.route('/api/categories', methods=['GET'])
 def get_recommendations():
     try:
-        # Optional query parameters
         top_n = request.args.get('top_n', default=10, type=int)
-        temperature = request.args.get('temperature', default=0.1, type=float)
+        temperature = request.args.get('temperature', default=.7, type=float)
+        model = request.args.get('model', default='ml', type=str)
         
-        # Load and process feedback
-        feedback = load_feedback()
-        user_history = convert_to_user_history(feedback)
-        
-        # Get recommendations
-        feedback = load_json("data/feedback.json")
-        liked_categories = [item["category"] for item in feedback if item["liked"]]
-        disliked_categories = [item["category"] for item in feedback if not item["liked"]]
-        recommendations = recommend_content_based(
-            liked_categories=liked_categories,
-            disliked_categories=disliked_categories,
-            top_n=top_n,
-            temperature=temperature
-        )
-        
+        if model == 'ml':
+            train_model()
+            recommendations = recommend_ml(top_n=top_n, temperature=temperature)
+        elif model == 'content_based':
+            feedback = load_feedback()
+            user_history = convert_to_user_history(feedback)
+            recommendations = recommend_content_based(user_history, top_n=top_n, temperature=temperature)
+            
         return jsonify({
             "status": "success",
             "recommendations": recommendations
         })
-    
+
     except Exception as e:
         return jsonify({
             "status": "error",
