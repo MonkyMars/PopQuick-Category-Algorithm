@@ -32,7 +32,7 @@ def convert_to_user_history(feedback):
     # Only include categories that were liked
     return [item["category"] for item in feedback if item["liked"]]
 
-@app.route('/recommendations', methods=['GET'])
+@app.route('/api/categories', methods=['GET'])
 def get_recommendations():
     try:
         top_n = request.args.get('top_n', default=10, type=int)
