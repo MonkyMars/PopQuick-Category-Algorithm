@@ -20,32 +20,24 @@ def initialize_model():
         with open("models/model.pkl", "rb") as f:
             vectorizer, model = pickle.load(f)
 
+
 initialize_model()
 
-@app.route('/api/categories', methods=['GET'])
+
+@app.route("/api/categories", methods=["GET"])
 def get_recommendations():
     try:
-        top_n = request.args.get('top_n', default=10, type=int)
-        temperature = request.args.get('temperature', default=0.7, type=float)
-        model_type = request.args.get('model', default='ml', type=str)
-        
-        if model_type == 'ml':
-            recommendations = recommend_ml(top_n=top_n, temperature=temperature, vectorizer=vectorizer, model=model)
-        elif model_type == 'content_based':
-            feedback = load_feedback()
-            user_history = convert_to_user_history(feedback)
-            recommendations = recommend_content_based(user_history, top_n=top_n, temperature=temperature)
-                
-        return jsonify({
-            "status": "success",
-            "recommendations": recommendations
-        })
+        top_n = request.args.get("top_n", default=10, type=int)
+        temperature = request.args.get("temperature", default=0.7, type=float)
+        recommendations = recommend_ml(
+            top_n=top_n, temperature=temperature, vectorizer=vectorizer, model=model
+        )
+
+        return jsonify({"status": "success", "recommendations": recommendations})
 
     except Exception as e:
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

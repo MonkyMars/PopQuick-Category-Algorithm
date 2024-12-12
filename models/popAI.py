@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 import pickle
 from utils.file_io import load_categories, load_feedback
 
+
 def train_model():
     categories = load_categories()
     category_names = list(categories.keys())
@@ -14,7 +15,7 @@ def train_model():
 
     # Create labels for all categories
     feedback = load_feedback()
-    feedback_dict = {item['category']: item['liked'] for item in feedback}
+    feedback_dict = {item["category"]: item["liked"] for item in feedback}
     y = np.array([feedback_dict.get(cat, False) for cat in category_names])
 
     model = LogisticRegression()
@@ -22,6 +23,7 @@ def train_model():
 
     with open("models/model.pkl", "wb") as f:
         pickle.dump((vectorizer, model), f)
+
 
 def recommend_ml(top_n=10, temperature=0.7, vectorizer=None, model=None):
     categories = load_categories()
