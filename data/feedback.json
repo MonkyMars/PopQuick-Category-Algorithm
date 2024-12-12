@@ -1,15 +1,15 @@
 [
-  { "category": "constitutional law", "liked": true },
-  { "category": "corporate law", "liked": true },
-  { "category": "intellectual property", "liked": false },
-  { "category": "criminal law", "liked": true },
-  { "category": "international law", "liked": true },
-  { "category": "civil litigation", "liked": true },
-  { "category": "contract law", "liked": true },
-  { "category": "tax law", "liked": true },
-  { "category": "environmental law", "liked": false },
-  { "category": "human rights law", "liked": true },
-  { "category": "family law", "liked": false },
-  { "category": "legal tech", "liked": true },
-  { "category": "legal research", "liked": true }
+  { "category": "gaming", "liked": true },
+  { "category": "minecraft", "liked": true },
+  { "category": "fortnite", "liked": true },
+  { "category": "league of legends", "liked": true },
+  { "category": "valorant", "liked": true },
+  { "category": "cs:go", "liked": true },
+  { "category": "game development", "liked": true },
+  { "category": "twitch streaming", "liked": true },
+  { "category": "esports tournaments", "liked": true },
+  { "category": "game design", "liked": true },
+  { "category": "gaming consoles", "liked": true },
+  { "category": "youtube gaming", "liked": true },
+  { "category": "discord communities", "liked": true }
 ]
