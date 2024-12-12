@@ -1,15 +1,15 @@
 [
-  { "category": "gaming", "liked": true },
-  { "category": "minecraft", "liked": true },
-  { "category": "fortnite", "liked": true },
-  { "category": "league of legends", "liked": true },
-  { "category": "valorant", "liked": true },
-  { "category": "cs:go", "liked": true },
-  { "category": "game development", "liked": true },
-  { "category": "twitch streaming", "liked": true },
-  { "category": "esports tournaments", "liked": true },
-  { "category": "game design", "liked": true },
-  { "category": "gaming consoles", "liked": true },
-  { "category": "youtube gaming", "liked": true },
-  { "category": "discord communities", "liked": true }
+  { "category": "biology", "liked": true },
+  { "category": "ecology", "liked": true },
+  { "category": "marine biology", "liked": true },
+  { "category": "wildlife", "liked": true },
+  { "category": "biodiversity", "liked": true },
+  { "category": "environmental geography", "liked": true },
+  { "category": "botany", "liked": true },
+  { "category": "gene editing", "liked": true },
+  { "category": "conservation", "liked": true },
+  { "category": "zoology", "liked": true },
+  { "category": "gardening", "liked": true },
+  { "category": "outdoor adventure", "liked": true },
+  { "category": "ecosystem services", "liked": true }
 ]

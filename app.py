@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import sys
 import os
-
+import json
 # Add project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
@@ -12,6 +13,7 @@ from models.popAI import CategoryRecommender
 from utils.file_io import load_categories, load_feedback
 
 app = Flask(__name__)
+CORS(app)
 
 class ModelManager:
     def __init__(self):
@@ -57,6 +59,9 @@ def get_recommendations():
         temperature = request.args.get("temperature", default=0.7, type=float)
         model = request.args.get("model", default="quickai")
         
+        feedback_str = request.args.get("feedback")
+        feedback = json.loads(feedback_str) if feedback_str else []
+        
         if model.lower() == "quickai":
             recommendations = recommend_ml(
                 top_n=top_n, 
@@ -65,19 +70,24 @@ def get_recommendations():
                 model=model_manager.model
             )
         else:
-            categories, labels, category_names = model_manager.category_recommender.load_data()
+            categories, labels, category_names = model_manager.category_recommender.load_data(feedback=feedback)
             recommendations = model_manager.category_recommender.recommend_categories(
                 model_manager.category_recommender.create_model_pipeline().fit(categories, labels), 
                 categories, 
                 category_names, 
                 top_n=top_n, 
-                temperature=temperature
+                temperature=temperature,
             )
+        print(recommendations)
         return jsonify({
             "status": "success", 
             "data": recommendations
         })
-
+    except json.JSONDecodeError as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Invalid feedback format: {str(e)}"
+        }), 400
     except Exception as e:
         return jsonify({
             "status": "error", 

@@ -40,18 +40,14 @@ class CategoryRecommender:
         
         return ' '.join(cleaned_tokens)
 
-    def load_data(self, categories_path='data/categories.json', feedback_path='data/feedback.json'):
+    def load_data(self, categories_path='data/categories.json', feedback=None):
         """
         Load and preprocess categories and feedback data
         """
         # Load categories
         with open(categories_path, 'r') as f:
             categories = json.load(f)
-        
-        # Load feedback
-        with open(feedback_path, 'r') as f:
-            feedback = json.load(f)
-        
+            
         # Preprocess category descriptions
         category_names = list(categories.keys())
         descriptions = [self.preprocess_text(desc) for desc in categories.values()]
@@ -138,7 +134,8 @@ class CategoryRecommender:
         Main execution method
         """
         # Load data
-        descriptions, labels, category_names = self.load_data()
+        feedback = request.args.get("feedback", default=False, type=list)
+        descriptions, labels, category_names = self.load_data('data/categories.json', feedback=feedback)
         
         # Train and evaluate model
         trained_pipeline = self.train_and_evaluate(descriptions, labels)
