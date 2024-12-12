@@ -7,3 +7,11 @@ def save_json(data, file_path):
 def load_json(file_path):
     with open(file_path, "r") as f:
         return json.load(f)
+
+def load_categories(file_path="data/categories.json"):
+    with open(file_path, "r") as f:
+        return json.load(f)
+
+def load_feedback(file_path="data/feedback.json"):
+    with open(file_path, "r") as f:
+        return json.load(f)

@@ -2,7 +2,7 @@
   { "category": "programming", "liked": true },
   { "category": "rocket league", "liked": false },
   { "category": "programming languages", "liked": true },
-  { "category": "game development", "liked": false },
+  { "category": "game development", "liked": true },
   { "category": "web development", "liked": true },
   { "category": "mobile development", "liked": false },
   { "category": "cloud computing", "liked": true },
