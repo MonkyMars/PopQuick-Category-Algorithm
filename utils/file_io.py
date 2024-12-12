@@ -15,3 +15,6 @@ def load_categories(file_path="data/categories.json"):
 def load_feedback(file_path="data/feedback.json"):
     with open(file_path, "r") as f:
         return json.load(f)
+      
+def convert_to_user_history(feedback):
+    return [item["category"] for item in feedback if item["liked"]]

@@ -3,6 +3,7 @@ import json
 from flask import Flask, request, jsonify
 from utils.file_io import load_json
 import pickle
+from utils.file_io import load_feedback, convert_to_user_history
 
 app = Flask(__name__)
 
@@ -20,16 +21,6 @@ def initialize_model():
             vectorizer, model = pickle.load(f)
 
 initialize_model()
-
-# Load the feedback data from the JSON file
-def load_feedback(file_path="data/feedback.json"):
-    with open(file_path, "r") as f:
-        return json.load(f)
-
-# Convert the feedback data to user_history format
-def convert_to_user_history(feedback):
-    # Only include categories that were liked
-    return [item["category"] for item in feedback if item["liked"]]
 
 @app.route('/api/categories', methods=['GET'])
 def get_recommendations():
