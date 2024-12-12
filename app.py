@@ -7,8 +7,8 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from models.popAI import train_model, recommend_ml
-from models.QuickAI import CategoryRecommender
+from models.quickAI import train_model, recommend_ml
+from models.popAI import CategoryRecommender
 from utils.file_io import load_categories, load_feedback
 
 app = Flask(__name__)
@@ -55,29 +55,27 @@ def get_recommendations():
         # Get parameters with default values
         top_n = request.args.get("top_n", default=10, type=int)
         temperature = request.args.get("temperature", default=0.7, type=float)
+        model = request.args.get("model", default="quickai")
         
-        # Option 1: Using recommend_ml from popAI
-        popai_recommendations = recommend_ml(
-            top_n=top_n, 
-            temperature=temperature, 
-            vectorizer=model_manager.vectorizer, 
-            model=model_manager.model
-        )
-        
-        # Option 2: Using CategoryRecommender from QuickAI
-        categories, labels, category_names = model_manager.category_recommender.load_data()
-        quickai_recommendations = model_manager.category_recommender.recommend_categories(
-            model_manager.category_recommender.create_model_pipeline().fit(categories, labels), 
-            categories, 
-            category_names, 
-            top_n=top_n, 
-            temperature=temperature
-        )
-        
+        if model.lower() == "quickai":
+            recommendations = recommend_ml(
+                top_n=top_n, 
+                temperature=temperature, 
+                vectorizer=model_manager.vectorizer, 
+                model=model_manager.model
+            )
+        else:
+            categories, labels, category_names = model_manager.category_recommender.load_data()
+            recommendations = model_manager.category_recommender.recommend_categories(
+                model_manager.category_recommender.create_model_pipeline().fit(categories, labels), 
+                categories, 
+                category_names, 
+                top_n=top_n, 
+                temperature=temperature
+            )
         return jsonify({
             "status": "success", 
-            "popai_recommendations": popai_recommendations,
-            "quickai_recommendations": quickai_recommendations
+            "data": recommendations
         })
 
     except Exception as e:

@@ -1,0 +1,3 @@
+PopAI = ['cs:go', 'valorant', 'gaming', 'league of legends', 'discord communities', 'twitch streaming', 'esports tournaments', 'call of duty', 'fortnite', 'game design']
+
+QuickAI = ['cs:go', 'valorant', 'league of legends', 'gaming', 'discord communities', 'fortnite', 'esports tournaments', 'minecraft', 'twitch streaming', 'game design']
