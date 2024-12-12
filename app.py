@@ -12,17 +12,11 @@ model = None
 
 def initialize_model():
     global vectorizer, model
-    try:
-        with open("models/model.pkl", "rb") as f:
-            vectorizer, model = pickle.load(f)
-    except FileNotFoundError:
-        train_model()
-        with open("models/model.pkl", "rb") as f:
-            vectorizer, model = pickle.load(f)
-
+    train_model()
+    with open("models/model.pkl", "rb") as f:
+      vectorizer, model = pickle.load(f)
 
 initialize_model()
-
 
 @app.route("/api/categories", methods=["GET"])
 def get_recommendations():

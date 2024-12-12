@@ -1,7 +1,7 @@
 import requests
 
 response = requests.get(
-    "http://localhost:5000/api/categories", params={"top_n": 10, "temperature": 0.5}
+    "http://localhost:5000/api/categories", params={"top_n": 10, "temperature": 0.1}
 )
 data = response.json()
 if response.status_code == 200:

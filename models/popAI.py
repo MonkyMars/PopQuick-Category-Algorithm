@@ -45,3 +45,4 @@ def recommend_ml(top_n=10, temperature=0.7, vectorizer=None, model=None):
     recommendations = [category_names[i] for i in recommended_indices]
 
     return recommendations
+

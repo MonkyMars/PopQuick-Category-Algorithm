@@ -1,15 +1,15 @@
 [
-  { "category": "programming", "liked": true },
-  { "category": "rocket league", "liked": false },
-  { "category": "programming languages", "liked": true },
-  { "category": "game development", "liked": true },
-  { "category": "web development", "liked": true },
-  { "category": "mobile development", "liked": false },
-  { "category": "cloud computing", "liked": true },
-  { "category": "machine learning", "liked": true },
-  { "category": "natural language processing", "liked": false },
-  { "category": "digital marketing", "liked": false },
-  { "category": "e-commerce", "liked": true },
-  { "category": "3D modeling", "liked": false },
-  { "category": "UI/UX design", "liked": true }
+  { "category": "constitutional law", "liked": true },
+  { "category": "corporate law", "liked": true },
+  { "category": "intellectual property", "liked": false },
+  { "category": "criminal law", "liked": true },
+  { "category": "international law", "liked": true },
+  { "category": "civil litigation", "liked": true },
+  { "category": "contract law", "liked": true },
+  { "category": "tax law", "liked": true },
+  { "category": "environmental law", "liked": false },
+  { "category": "human rights law", "liked": true },
+  { "category": "family law", "liked": false },
+  { "category": "legal tech", "liked": true },
+  { "category": "legal research", "liked": true }
 ]
