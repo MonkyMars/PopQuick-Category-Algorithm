@@ -1,6 +1,5 @@
 scikit-learn
 numpy
 flask
+nltk
 requests
-pickle
-json
