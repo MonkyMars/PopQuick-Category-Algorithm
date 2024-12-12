@@ -1,4 +1,4 @@
-from models.content_based import recommend_content_based, train_model, recommend_ml
+from models.popAI import train_model, recommend_ml
 import json
 from flask import Flask, request, jsonify
 from utils.file_io import load_json
@@ -6,7 +6,6 @@ import pickle
 
 app = Flask(__name__)
 
-# Load models and vectorizers once
 vectorizer = None
 model = None
 
