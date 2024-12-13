@@ -1,15 +1,15 @@
 [
-  { "category": "biology", "liked": true },
-  { "category": "ecology", "liked": true },
-  { "category": "marine biology", "liked": true },
-  { "category": "wildlife", "liked": true },
-  { "category": "biodiversity", "liked": true },
-  { "category": "environmental geography", "liked": true },
-  { "category": "botany", "liked": true },
-  { "category": "gene editing", "liked": true },
-  { "category": "conservation", "liked": true },
-  { "category": "zoology", "liked": true },
-  { "category": "gardening", "liked": true },
-  { "category": "outdoor adventure", "liked": true },
-  { "category": "ecosystem services", "liked": true }
+  { "category": "blockchain", "liked": true },
+  { "category": "cryptocurrency", "liked": true },
+  { "category": "nfts", "liked": true },
+  { "category": "decentralized finance", "liked": true },
+  { "category": "smart contracts", "liked": true },
+  { "category": "tokenization", "liked": true },
+  { "category": "digital art", "liked": true },
+  { "category": "crypto wallets", "liked": true },
+  { "category": "blockchain technology", "liked": true },
+  { "category": "web3", "liked": true },
+  { "category": "metaverse", "liked": true },
+  { "category": "crypto trading", "liked": true },
+  { "category": "blockchain platforms", "liked": true }
 ]
